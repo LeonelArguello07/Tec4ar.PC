@@ -91,8 +91,10 @@ Al abrir una base existente, TEC4AR conserva sus registros y añade las columnas
 
 | Integrante | Rol |
 |---|---|
-| Leonel Argüello | Desarrollador principal |
+| Leonel Argüello | Desarrollador principal / Scrum master|
 | Braian Salto | Desarrollador secundario |
+| Alejo Miguel | Soporte Tecnico|
+| Damian Gonzales | Analista |
 
 ## Destinatarios
 
