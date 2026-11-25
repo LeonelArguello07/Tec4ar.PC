@@ -16,20 +16,20 @@ Las redes informáticas de la escuela no están documentadas. No existe un regis
 
 Un sistema liviano que centraliza la información de equipos (switches, computadoras, servidores), redes/subredes y laboratorios, pensado para el contexto escolar, a diferencia de las herramientas empresariales, que suelen ser complejas y costosas.
 
-## Funcionalidades actuales — V0.5
+## Funcionalidades actuales — V0.6
 
+- Inicio en **modo manual vacío**: la aplicación no abre ni crea una base SQLite al arrancar; mantiene el espacio de trabajo en memoria hasta que se abra una base existente o se guarde una nueva.
 - Árbol jerárquico de **redes, subredes y dispositivos**, con estado indicado por color (Conectado, Desconectado y Mantenimiento).
-- Alta, edición, renombrado y eliminación de redes, subredes y dispositivos, con eliminación en cascada de los elementos dependientes.
-- Ficha de cada dispositivo: nombre, tipo, IP, MAC, estado, fabricante, modelo, ubicación, sistema operativo y descripción.
-- **Planificación IPv4/CIDR por red o subred**: al ingresar una dirección con prefijo (por ejemplo, `192.168.1.77/24`) muestra la dirección de red, máscara, primera y última IP asignables, broadcast y rango. La planificación se guarda en la columna `cidr`.
-- **Cambios pendientes**: las operaciones de alta, edición, renombrado, eliminación, importación y planificación quedan en espera. **Aplicar cambios** presenta el detalle y pide confirmación; **Descartar cambios** revierte las operaciones. Al cerrar o cambiar de base, se puede aplicar, descartar o cancelar.
-- **Importación desde otra base SQLite**: valida el esquema mínimo, incorpora las redes/subredes y dispositivos, omite dispositivos duplicados (misma red, nombre e IP) y no modifica el archivo de origen. La importación también queda pendiente hasta aplicar los cambios.
-- **Cambio de base activa**: se puede abrir la base seleccionada como espacio de trabajo o importar su contenido a la base actual.
-- **Modo manual**: permite salir de la base activa y empezar con una estructura vacía en memoria, crear una red principal y guardarla como una base SQLite nueva.
+- Alta, edición, renombrado y eliminación de redes, subredes y máquinas, con eliminación en cascada de los elementos dependientes.
+- Planificación IPv4/CIDR por red o subred: dirección de red, máscara, primera y última IP asignables, broadcast y rango.
+- Pestaña **Inventario** con nombre lógico, tipo, IP, MAC, vista previa de características, fabricante, estado, ubicación y red/subred.
+- Acciones de **Detalle**, **Editar** y **Clonar máquina** desde el inventario. La clonación copia la ficha técnica, pero deja IP y MAC vacías y el estado como Desconocido para evitar identidades duplicadas. No clona discos ni instala sistemas operativos.
+- El tipo de dispositivo se elige desde un combo con opciones sugeridas (y permite escribir otro tipo); fabricante y características se pueden completar libremente.
+- **Cambios pendientes**: altas, ediciones, renombrados, eliminaciones, importaciones y planificaciones se confirman con **Aplicar cambios** o se revierten con **Descartar cambios**. Al cerrar o cambiar de base se ofrece aplicar, descartar o cancelar.
+- Importación desde otra base SQLite sin modificar el origen, con omisión de dispositivos duplicados. También se puede abrir la base elegida como espacio de trabajo activo.
+- Guardado del modo manual como una nueva base SQLite. El archivo se crea cuando se aplican los cambios.
 - Logo TEC4AR y botón para alternar entre modo claro y oscuro.
-- Carga automática de datos de ejemplo si la base inicial está vacía.
-- Migración de bases anteriores: agrega las columnas que falten para descripción, jerarquía (`parent_id`), planificación (`cidr`) y atributos opcionales de dispositivos.
-
+- Migración de bases anteriores: agrega columnas faltantes para descripción, jerarquía (`parent_id`), planificación (`cidr`) y atributos opcionales de dispositivos.
 ## Tecnologías
 
 - Python 3
@@ -50,19 +50,18 @@ Desde la carpeta del repositorio:
 
 ```powershell
 cd ByteTracker
-python ByteTrackerV0.5.py
+python ByteTrackerV0.6.py
 ```
 
-La aplicación utiliza `Ejemplo.db` en el directorio desde el que se inicia. Si la base está vacía, carga datos de ejemplo.
+La aplicación abre en modo manual y vacío. No crea ni selecciona `Ejemplo.db` automáticamente.
 
-1. Seleccioná una red o subred en el panel izquierdo para consultar o editar su información.
-2. Usá **＋ Agregar** para crear subredes o añadir dispositivos; para comenzar con una estructura vacía, elegí **Salir de la base de datos** y luego **Crear red principal**.
-3. Para planificar una red, ingresá su IPv4/CIDR y pulsá **Guardar planificación**. El cálculo se actualiza mientras escribís.
-4. Para importar, elegí un archivo `.db` con **Examinar...** y pulsá **Cargar dispositivos desde SQLite**. Si querés trabajar directamente sobre ese archivo, usá **Abrir selección como base activa**.
-5. En modo manual, elegí **Guardar manual como nueva base** para indicar el destino. El archivo se crea cuando confirmás **Aplicar cambios**.
-6. Revisá el contador y usá **Aplicar cambios** para confirmar el resumen, o **Descartar cambios** para revertirlos.
+1. Elegí **Crear red principal** y luego agregá subredes y máquinas desde **＋ Agregar**.
+2. Abrí **Inventario** para consultar máquinas, editar su ficha o usar **Detalle**.
+3. Para una máquina nueva basada en otra, seleccioná la máquina original y pulsá **Clonar máquina**. Se copian tipo, fabricante, modelo, ubicación y características; completá un nombre, una IP y una MAC propios antes de crear el registro.
+4. En el formulario, seleccioná el tipo desde el combo o escribí otro. Las características/detalles siguen siendo texto libre.
+5. Para usar una base existente, elegí el archivo con **Examinar...** y pulsá **Abrir selección como base activa**. Para incorporar sus registros al espacio actual, elegí **Cargar dispositivos desde SQLite**.
+6. Para guardar el trabajo manual, elegí **Guardar manual como nueva base** y después **Aplicar cambios**. Revisá el resumen y confirmá; **Descartar cambios** revierte lo pendiente.
 7. El botón **☀ Claro / ☾ Oscuro** alterna el tema de la interfaz.
-
 ## Modelo de datos
 
 ```text
