@@ -1,0 +1,11 @@
+Falta agregar Capas, zebradas, (formato jason), planificación de la red al momento de clickear, primera y ultima IP asignable, broadcastrango y nombre de la red(ip con el 0), 
+
+En el inventario se pone, maquina(nom logico, nom ip, nom de la mac, características, estado u ubicación), maquina clon, carpeta de todas las evoluciones. Poner boton de detalle, clon si es fabricante,  tipo de dispositivos, convertir el campo tipo de texto a combo
+
+Id del dispositivo, que falla tuvo, alta, tecnico. Listado de los elementos abajo, zebrada con todos los datos.
+
+Zebrada:planilla de excel 
+Imaginame hai al lado tuyo queriendo imprimirlo, asi que trabajarlo reporte como pdf para imprimirlo, que tenga titulo, encabezado y pie de pagina 
+
+Base de datos no relacional + Jason 
+Flas
